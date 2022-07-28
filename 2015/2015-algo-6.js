@@ -313,23 +313,31 @@ const arrData = input.split('\n').map((elm) => {
   };
 });
 
-let grid = [];
+const grid1 = [];
 for (let i = 0; i < 1000; i++) {
-  grid[i] = [];
+  grid1[i] = [];
   for (let j = 0; j < 1000; j++) {
-    grid[i][j] = 0;
+    grid1[i][j] = 0;
+  }
+}
+
+const grid2 = [];
+for (let i = 0; i < 1000; i++) {
+  grid2[i] = [];
+  for (let j = 0; j < 1000; j++) {
+    grid2[i][j] = 0;
   }
 }
 
 /*---------------------------------DAY6-EX1-----------------------------------*/
 
-const instructions = function (action, start, end) {
+const instructions = function (arr, action, start, end) {
   switch (action) {
     case 'turn off':
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j] = 0;
+            arr[i][j] = 0;
           }
         }
       }
@@ -338,7 +346,7 @@ const instructions = function (action, start, end) {
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j] = 1;
+            arr[i][j] = 1;
           }
         }
       }
@@ -347,27 +355,73 @@ const instructions = function (action, start, end) {
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j] = 1 - grid[i][j];
+            arr[i][j] = 1 - arr[i][j];
           }
         }
       }
       break;
   }
 
-  return grid;
+  return arr;
 };
 
 for (let elm of arrData) {
-  instructions(elm.action, elm.start, elm.end);
+  instructions(grid1, elm.action, elm.start, elm.end);
 }
 
 let lampOn = 0;
 
 for (let i = 0; i < 1000; i++) {
   for (let j = 0; j < 1000; j++) {
-    if (grid[i][j]) lamp++;
+    if (grid1[i][j]) lampOn++;
   }
 }
-console.log('lamps on ', lampOn);
+console.log('total lamps on: ', lampOn);
 
 /*---------------------------------DAY5-EX2-----------------------------------*/
+
+const brightness = function (arr, action, start, end) {
+  switch (action) {
+    case 'turn off':
+      {
+        for (let i = +start[0]; i < +end[0] + 1; i++) {
+          for (let j = +start[1]; j < +end[1] + 1; j++) {
+            arr[i][j] != 0 ? arr[i][j]-- : (arr[i][j] = 0);
+          }
+        }
+      }
+      break;
+    case 'turn on':
+      {
+        for (let i = +start[0]; i < +end[0] + 1; i++) {
+          for (let j = +start[1]; j < +end[1] + 1; j++) {
+            arr[i][j]++;
+          }
+        }
+      }
+      break;
+    case 'toggle':
+      {
+        for (let i = +start[0]; i < +end[0] + 1; i++) {
+          for (let j = +start[1]; j < +end[1] + 1; j++) {
+            arr[i][j] += 2;
+          }
+        }
+      }
+      break;
+  }
+
+  return arr;
+};
+
+for (let elm of arrData) {
+  brightness(grid2, elm.action, elm.start, elm.end);
+}
+let bright = 0;
+for (let i = 0; i < 1000; i++) {
+  for (let j = 0; j < 1000; j++) {
+    bright += grid2[i][j];
+  }
+}
+
+console.log('total brightness: ', bright);
