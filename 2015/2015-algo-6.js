@@ -307,56 +307,64 @@ const arrData = input.split('\n').map((elm) => {
   const beginEnd = elm.split(/[a-z]*\s/).filter((x) => x !== '');
   const actionType = elm.split(/[0-9],*/).filter((x) => x !== '');
   return {
-    action: actionType[0],
+    action: actionType[0].trim(),
     start: beginEnd[0].split(','),
     end: beginEnd[1].split(','),
   };
 });
 
-const grid = [];
+let grid = [];
 for (let i = 0; i < 1000; i++) {
   grid[i] = [];
   for (let j = 0; j < 1000; j++) {
-    grid[i][j] = {
-      status: '',
-    };
+    grid[i][j] = false;
   }
 }
 
 const instructions = function (action, start, end) {
   switch (action) {
-    case 'turn off ':
+    case 'turn off':
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j].status = 0;
+            grid[i][j] = false;
           }
         }
       }
       break;
-    case 'turn on ':
+    case 'turn on':
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j].status = 1;
+            grid[i][j] = true;
           }
         }
       }
       break;
-    case 'toggle ':
+    case 'toggle':
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j].status = !grid[i][j].status;
+            grid[i][j] = !grid[i][j];
           }
         }
       }
       break;
   }
+
+  return grid;
 };
 
 for (let elm of arrData) {
-  instructions(elm.actionType, elm.start, elm.end);
+  instructions(elm.action, elm.start, elm.end);
 }
 
-console.log(grid);
+let lamp = 0;
+
+for (let i = 0; i < 1000; i++) {
+  for (let j = 0; j < 1000; j++) {
+    if (grid[i][j]) lamp++;
+  }
+}
+
+console.log(lamp);
