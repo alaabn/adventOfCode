@@ -317,9 +317,11 @@ let grid = [];
 for (let i = 0; i < 1000; i++) {
   grid[i] = [];
   for (let j = 0; j < 1000; j++) {
-    grid[i][j] = false;
+    grid[i][j] = 0;
   }
 }
+
+/*---------------------------------DAY6-EX1-----------------------------------*/
 
 const instructions = function (action, start, end) {
   switch (action) {
@@ -327,7 +329,7 @@ const instructions = function (action, start, end) {
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j] = false;
+            grid[i][j] = 0;
           }
         }
       }
@@ -336,7 +338,7 @@ const instructions = function (action, start, end) {
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j] = true;
+            grid[i][j] = 1;
           }
         }
       }
@@ -345,7 +347,7 @@ const instructions = function (action, start, end) {
       {
         for (let i = +start[0]; i < +end[0] + 1; i++) {
           for (let j = +start[1]; j < +end[1] + 1; j++) {
-            grid[i][j] = !grid[i][j];
+            grid[i][j] = 1 - grid[i][j];
           }
         }
       }
@@ -359,12 +361,13 @@ for (let elm of arrData) {
   instructions(elm.action, elm.start, elm.end);
 }
 
-let lamp = 0;
+let lampOn = 0;
 
 for (let i = 0; i < 1000; i++) {
   for (let j = 0; j < 1000; j++) {
     if (grid[i][j]) lamp++;
   }
 }
+console.log('lamps on ', lampOn);
 
-console.log(lamp);
+/*---------------------------------DAY5-EX2-----------------------------------*/
